@@ -9,19 +9,17 @@ cat test.log | grep -P "(\d+\.\d+)" -o | sort > temp.txt;
 
 
 # #общее время успешных обращений
-# cat temp.txt | paste -sd+ | bc;
+echo "Total time: "$(cat temp.txt | paste -sd+ | bc);
 
 # #среднее значение
-# cat temp.txt | awk '{a += $1 } END {print a/NR}';
+echo "Mean "$(cat temp.txt | awk '{a += $1 } END {print a/NR}');
 
 count_rows=$(cat temp.txt | wc -l);
 
-# middle_row=$(expr $count_rows / 2);
-
-# echo $middle_row;
+middle_row=$(expr $count_rows / 2);
 
 # #медиана 
-# cat temp.txt | sed -n $middle_row"p"; 
+echo "Median: "$(cat temp.txt | sed -n $middle_row"p"); 
 
 
 # #95 квантиль
@@ -34,5 +32,3 @@ kw99=$(echo $count_rows*0.99 | bc | awk '{printf("%d\n",$0+=$0<0?0:0.9)}')
 
 echo "99 quantile: "$(cat temp.txt | sed -n $kw99"p"); 
 
-
-echo $kw95;
